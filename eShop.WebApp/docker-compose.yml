@@ -1,13 +1,14 @@
-version: '3'
+version: '3.9'
 
 networks:
   eShop:
 services:
   database:
     image: mcr.microsoft.com/mssql/server:latest
-    networks: eShop
+    networks:
+      - eShop
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: 'asdqwe123'
+      MSSQL_SA_PASSWORD: "Asdqwe123"
     ports:
-      - 1433: 1433
+      - "1433:1433"
