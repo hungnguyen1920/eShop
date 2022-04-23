@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace eShop.Application
+﻿namespace eShop.Application
 {
     public class Class1
     {

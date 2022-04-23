@@ -1,9 +1,7 @@
 ﻿using eShop.Data.Configurations;
 using eShop.Data.Entities;
+using eShop.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace eShop.Data.EF
 {
@@ -13,23 +11,27 @@ namespace eShop.Data.EF
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder moderBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            moderBuilder.ApplyConfiguration(new AppConfigConfiguration());
-            moderBuilder.ApplyConfiguration(new ProductConfiguration());
-            moderBuilder.ApplyConfiguration(new CategoryConfiguration());
-            moderBuilder.ApplyConfiguration(new OrderConfiguration());
-            moderBuilder.ApplyConfiguration(new OrderDetailConfiguration());
-            moderBuilder.ApplyConfiguration(new CategoryTranslationConfiguration());
-            moderBuilder.ApplyConfiguration(new ContactConfiguration());
-            moderBuilder.ApplyConfiguration(new LanguageConfiguration());
-            moderBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
-            moderBuilder.ApplyConfiguration(new PromotionConfiguration());
-            moderBuilder.ApplyConfiguration(new TransactionConfiguration());
+            // Configure using Fluent API
+            modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryTranslationConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
+            modelBuilder.ApplyConfiguration(new LanguageConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
+            modelBuilder.ApplyConfiguration(new PromotionConfiguration());
+            modelBuilder.ApplyConfiguration(new TransactionConfiguration());
 
-            moderBuilder.ApplyConfiguration(new ProductCategoryMapConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductCategoryMapConfiguration());
 
-            //base.OnModelCreating(moderBuilder);
+            // Data seeding
+            modelBuilder.Seed();
+
+            //base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Product> Products { get; set; }
