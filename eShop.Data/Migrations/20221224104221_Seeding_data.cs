@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace eShop.Data.Migrations
 {
-    public partial class seeding_data : Migration
+    public partial class Seeding_data : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,9 +14,9 @@ namespace eShop.Data.Migrations
                 columns: new[] { "Key", "Value" },
                 values: new object[,]
                 {
-                    { "HomeTitle", "This is home page of eShop" },
+                    { "HomeDescription", "This is description of eShop" },
                     { "HomeKeyWork", "This is keyword of eShop" },
-                    { "HomeDescription", "This is description of eShop" }
+                    { "HomeTitle", "This is home page of eShop" }
                 });
 
             migrationBuilder.InsertData(
@@ -31,14 +33,14 @@ namespace eShop.Data.Migrations
                 columns: new[] { "Id", "IsDefault", "Name" },
                 values: new object[,]
                 {
-                    { "vi-VN", true, "Tiếng Việt" },
-                    { "en-US", false, "English" }
+                    { "en-US", false, "English" },
+                    { "vi-VN", true, "Tiếng Việt" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "DateCreated", "OriginalPrice", "Price" },
-                values: new object[] { 1, new DateTime(2022, 4, 23, 10, 43, 48, 77, DateTimeKind.Local).AddTicks(8835), 100000m, 200000m });
+                values: new object[] { 1, new DateTime(2022, 12, 24, 10, 42, 20, 978, DateTimeKind.Utc).AddTicks(6680), 100000m, 200000m });
 
             migrationBuilder.InsertData(
                 table: "CategoryTranslations",
@@ -46,8 +48,8 @@ namespace eShop.Data.Migrations
                 values: new object[,]
                 {
                     { 1, 1, "vi-VN", "Áo nam", "ao-nam", "Sản phẩm áo thời trang nam", "Sản phẩm áo thời trang nam" },
-                    { 3, 2, "vi-VN", "Áo nữ", "ao-nu", "Sản phẩm áo thời trang nữ", "Sản phẩm áo thời trang women" },
                     { 2, 1, "en-US", "Men Shirt", "men-shirt", "The shirt products for men", "The shirt products for men" },
+                    { 3, 2, "vi-VN", "Áo nữ", "ao-nu", "Sản phẩm áo thời trang nữ", "Sản phẩm áo thời trang women" },
                     { 4, 2, "en-US", "Women Shirt", "women-shirt", "The shirt products for women", "The shirt products for women" }
                 });
 

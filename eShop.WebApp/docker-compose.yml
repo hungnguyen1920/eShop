@@ -3,12 +3,27 @@ version: '3.9'
 networks:
   eShop:
 services:
-  database:
-    image: mcr.microsoft.com/mssql/server:latest
-    networks:
-      - eShop
+  # database:
+  #   image: mcr.microsoft.com/mssql/server:latest
+  #   networks:
+  #     - eShop
+  #   environment:
+  #     ACCEPT_EULA: "Y"
+  #     MSSQL_SA_PASSWORD: "Asdqwe123"
+  #   ports:
+  #     - "1433:1433"
+  postgres:
+    image: postgres
+    container_name: postgres_container
     environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "Asdqwe123"
+      POSTGRES_PASSWORD: Asdqwe123
+      POSTGRES_USER: admin
+    volumes:
+       - postgres:/data/postgres
     ports:
-      - "1433:1433"
+      - "5432:5432"
+    networks: 
+      - eShop
+    restart: unless-stopped
+volumes:
+  postgres:
