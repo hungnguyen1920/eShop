@@ -1,5 +1,8 @@
 # eShop
+
 ## Technologies
-- .Net 3.1
+
+- .Net 6.0
+- PostgreSql
 - Entity Framework Core
 - Docker

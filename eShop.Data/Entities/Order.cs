@@ -16,5 +16,6 @@ namespace eShop.Data.Entities
         public OrderStatus Status { set; get; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 }

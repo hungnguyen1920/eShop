@@ -15,5 +15,6 @@ namespace eShop.Data.Entities
         public virtual ICollection<ProductCategoryMap> ProductCategoryMaps { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ProductTranslation> ProductTranslations { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
     }
 }
