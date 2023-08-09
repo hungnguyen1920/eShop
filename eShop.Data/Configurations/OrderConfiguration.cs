@@ -13,7 +13,7 @@ namespace eShop.Data.Configurations
             builder.ToTable("Orders");
             builder.Property(x => x.Id)
                    .UseIdentityColumn();
-            builder.Property(x => x.OrderDate).HasDefaultValue(DateTime.UtcNow);
+            builder.Property(x => x.OrderDate);
 
             builder.Property(x => x.ShipEmail)
                    .IsRequired()
