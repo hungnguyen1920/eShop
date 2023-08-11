@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using eShop.Application.Catalog.Products.Dtos;
-using eShop.Application.Catalog.Products.Dtos.Public;
-using eShop.Application.CommonDtos;
+using eShop.ViewModels.Catalog.Products;
+using eShop.ViewModels.Catalog.Products.Public;
+using eShop.ViewModels.Common;
 
 namespace eShop.Application.Catalog.Products
 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace eShop.Application.CommonDtos
+namespace eShop.ViewModels.Common
 {
     public class PagedResult<T>
     {

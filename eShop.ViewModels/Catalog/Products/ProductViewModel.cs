@@ -1,6 +1,4 @@
-using System;
-
-namespace eShop.Application.Catalog.Products.Dtos
+namespace eShop.ViewModels.Catalog.Products
 {
     public class ProductViewModel
     {
