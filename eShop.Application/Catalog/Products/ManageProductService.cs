@@ -34,7 +34,7 @@ namespace eShop.Application.Catalog.Products
                 var prodImage = new ProductImage()
                 {
                     Caption = "",
-                    DateCreated = DateTime.Now,
+                    DateCreated = DateTime.UtcNow,
                     FileSize = image.Length,
                     ImagePath = await this.SaveFile(image),
                     IsDefault = false,
@@ -83,7 +83,7 @@ namespace eShop.Application.Catalog.Products
                     new ProductImage()
                     {
                         Caption = "Thumbnai image",
-                        DateCreated = DateTime.Now,
+                        DateCreated = DateTime.UtcNow,
                         FileSize = request.ThumbnaiImage.Length,
                         ImagePath = await this.SaveFile(request.ThumbnaiImage),
                         IsDefault = true,
@@ -92,7 +92,8 @@ namespace eShop.Application.Catalog.Products
                 };
             }
             _context.Products.Add(product);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return product.Id;
         }
 
         public async Task<int> Delete(int productId)
@@ -152,6 +153,30 @@ namespace eShop.Application.Catalog.Products
                 Items = data
             };
             return pagedResult;
+        }
+
+        public async Task<ProductViewModel> GetById(int productId, string languageId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product is null) return null;
+            var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId && x.LanguageId == languageId);
+            var result = new ProductViewModel()
+            {
+                Id = product.Id,
+                Price = product.Price,
+                OriginalPrice = product.OriginalPrice,
+                Stock = product.Stock,
+                ViewCount = product.ViewCount,
+                DateCreated = product.DateCreated,
+                Name = productTranslation is not null ? productTranslation.Name : null,
+                Description = productTranslation is not null ? productTranslation.Description : null,
+                Details = productTranslation is not null ? productTranslation.Details : null,
+                SeoDescription = productTranslation is not null ? productTranslation.SeoDescription : null,
+                SeoTitle = productTranslation is not null ? productTranslation.SeoTitle : null,
+                SeoAlias = productTranslation is not null ? productTranslation.SeoAlias : null,
+                LanguageId = productTranslation.LanguageId,
+            };
+            return result;
         }
 
         public Task<List<ProductImageViewModel>> GetListImage(int productId)

@@ -1,4 +1,6 @@
 ﻿using eShop.Application.Catalog.Products;
+using eShop.Data.Entities;
+using eShop.ViewModels.Catalog.Products;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,43 +11,72 @@ namespace eShop.Api.Controllers
     public class ProductController : Controller
     {
         private readonly IPublicProductService _publicProductService;
+        private readonly IManageProductService _manageProductService;
 
-        public ProductController(IPublicProductService publicProductService)
+        public ProductController(IPublicProductService publicProductService, IManageProductService manageProductService)
         {
             _publicProductService = publicProductService;
+            _manageProductService = manageProductService;
         }
 
         // GET: api/values
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("{languageId}")]
+        public async Task<IActionResult> Get(string languageId)
         {
-            var products = await _publicProductService.GetAll();
+            var products = await _publicProductService.GetAll(languageId);
             return Ok(products);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("public-paging/{languageId}")]
+        public async Task<IActionResult> Get([FromQuery] GetPublicProductPagingRequest request)
         {
-            return "value";
+            var products = await _publicProductService.GetAllByCategoryId(request);
+            return Ok(products);
         }
 
-        // POST api/values
+        [HttpGet("{id}/{languageId}", Name = nameof(GetById))]
+        public async Task<IActionResult> GetById(int id, string languageId)
+        {
+            var product = await _manageProductService.GetById(id, languageId);
+            if (product is null)
+                return BadRequest("Cannot find product");
+            return Ok(product);
+        }
+
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
+            var productId = await _manageProductService.Create(request);
+            if (productId == 0)
+                return BadRequest();
+            return Created(nameof(GetById), new { Id = productId });
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromForm] ProductUpdateRequest request)
         {
+            var affectedResult = await _manageProductService.Update(request);
+            if (affectedResult == 0)
+                return BadRequest();
+            return Ok();
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var result = await _manageProductService.Delete(id);
+            if (result == 0)
+                return BadRequest();
+            return Ok();
+        }
+
+        [HttpPut("update-price/{id}/{newPrice}")]
+        public async Task<IActionResult> UpdatePrice(int id, decimal newPrice)
+        {
+            var isSucessfull = await _manageProductService.UpdatePrice(id, newPrice);
+            if (isSucessfull == false)
+                return BadRequest();
+            return Ok();
         }
     }
 }
