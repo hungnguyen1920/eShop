@@ -1,9 +1,16 @@
 ﻿using eShop.Application.Catalog.Products;
+using eShop.Application.Common;
 using eShop.Data.EF;
 using eShop.Utilities.Constants;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ApplicationName = typeof(Program).Assembly.FullName,
+    ContentRootPath = Directory.GetCurrentDirectory(),
+    WebRootPath = Directory.GetCurrentDirectory(),
+});
 
 builder.Configuration.AddJsonFile("appsettings.json");
 
@@ -18,7 +25,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<eShopDbContext>(option => option.UseNpgsql(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
 //Register Services
-builder.Services.AddTransient<IPublicProductService, PublicProductService>();
+builder.Services.AddTransient<IStorageService, FileStorageService>();
+builder.Services.AddScoped<IPublicProductService, PublicProductService>();
+builder.Services.AddScoped<IManageProductService, ManageProductService>();
 
 var app = builder.Build();
 

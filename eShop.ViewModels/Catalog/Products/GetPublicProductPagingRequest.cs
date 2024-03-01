@@ -1,5 +1,4 @@
-﻿using System;
-using eShop.ViewModels.Common;
+﻿using eShop.ViewModels.Common;
 
 namespace eShop.ViewModels.Catalog.Products
 {
