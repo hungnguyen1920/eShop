@@ -1,5 +1,3 @@
-version: '3.9'
-
 networks:
   eShop:
 services:
@@ -18,6 +16,7 @@ services:
     environment:
       POSTGRES_PASSWORD: Asdqwe123
       POSTGRES_USER: admin
+      POSTGRES_DB: eShopDb
     volumes:
        - postgres:/data/postgres
     ports:
@@ -25,5 +24,20 @@ services:
     networks: 
       - eShop
     restart: unless-stopped
+  
+  # api:
+  #   image: ${DOCKER_REGISTRY-}eshop-api:${PLATFORM:-linux}-${TAG:-latest}
+  #   container_name: api_container
+  #   build: 
+  #     context: ./eShop.Api
+  #     dockerfile: eShop.Api/Dockerfile
+  #   ports:
+  #     - "8000:8080"
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     - CONNECTION_STRING=Host=localhost;Port=5432;Database=eShopDb;User=admin;Password=Asdqwe123;
+  #   networks:
+  #     - eShop
 volumes:
   postgres:
